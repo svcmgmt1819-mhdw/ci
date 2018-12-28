@@ -1,0 +1,85 @@
+version: '3.7'
+
+services:
+  db:
+    image: postgres:11-alpine
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    networks:
+      - dbnet
+    ports:
+      - "127.0.0.1:5432:5432"
+    environment:
+      POSTGRES_USER: gitea
+      POSTGRES_PASSWORD: gitea
+      POSTGRES_DB: gitea
+  dbadm:
+    depends_on:
+      - db
+    image: dpage/pgadmin4:latest
+    volumes:
+      - dbadmdata:/var/lib/pgadmin
+    networks:
+      - dbnet
+    ports:
+      - "127.0.0.1:8000:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin
+      PGADMIN_DEFAULT_PASSWORD: Password1
+  gitea:
+    depends_on:
+      - db
+    image: gitea/gitea
+    volumes:
+      - gitdata:/data
+    networks:
+      - dbnet
+    ports:
+      - "127.0.0.1:3000:3000"
+      - "127.0.0.1:2222:22"
+    environment:
+      DB_TYPE: postgres
+      DB_HOST: db:5432
+      DB_NAME: gitea
+      DB_USER: gitea
+      DB_PASSWD: gitea
+  drone-server:
+    depends_on:
+      - gitea
+    image: drone/drone:0.8
+    ports:
+      - "127.0.0.1:80:8000"
+      - "127.0.0.1:9000:9000"
+    volumes:
+      - drone-server-data:/var/lib/drone/
+    networks:
+      - dbnet
+    environment:
+      DRONE_OPEN: "true"
+      DRONE_ADMIN: "admin1"
+      DRONE_HOST: "http://drone-server"
+      DRONE_GITEA: "true"
+      DRONE_GITEA_URL: "http://gitea:3000"
+      DRONE_SECRET: 0ba66deb-c82b-4c8f-9c09-872a45d85a38
+  drone-agent:
+    image: drone/agent:0.8
+    command: agent
+    depends_on:
+      - drone-server
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - dbnet
+    environment:
+      DRONE_SERVER: drone-server:9000
+      DRONE_SECRET: 0ba66deb-c82b-4c8f-9c09-872a45d85a38
+
+volumes:
+  dbdata:
+  dbadmdata:
+  drone-server-data:
+  gitdata:
+
+networks:
+  dbnet:
+    driver: bridge
