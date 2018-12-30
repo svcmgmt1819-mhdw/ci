@@ -32,6 +32,6 @@ Die über Vagrant gestartete Maschine erhält die IP-Adresse `10.130.1.100`. Die
 
 - Gitea Git-Server ist erreichbar über Port 3000/HTTP und 2222/SSH.
 - Drone API-Server auf Port 8000/HTTP.
-- pgAdmin 4 als Oberfläche zur Verwaltung der Datenbank auf Port 8001/HTTP.
+- pgAdmin 4 als Oberfläche zur Verwaltung der Datenbank auf Port 8001/HTTP. Standardusername und Passwort sind `admin`/`Password1`. Innerhalb des pgAdmin-Containers ist die Datenbank über den Hostnamen `db` zu erreichen mit Username/Passwort/Datenbank `gitea`.
 
 Bevor Docker-Images auf Docker Hub veröffentlicht werden können, müssen im Drone Webinterface unter `Secrets` die Zugangsdaten hinterlegt werden. Dies geschieht über die Eintragung der Variablen `docker_username` und `docker_password`.
