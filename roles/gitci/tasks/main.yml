@@ -1,0 +1,30 @@
+---
+
+  - name: Create target directory
+    become: true
+    file:
+      dest: /opt/gitci
+      state: directory
+      owner: root
+      group: root
+      mode: u=rwX,g=rX,o=rX
+      recurse: yes
+  
+  - name: Copy Docker Compose file
+    become: true
+    copy:
+      src: docker-compose.yml
+      dest: /opt/gitci/docker-compose.yml
+
+  - name: Copy systemd service file
+    become: true
+    copy:
+      src: gitci.service
+      dest: /lib/systemd/system/gitci.service
+  
+  - name: Enable service
+    become: true
+    systemd:
+      name: gitci
+      state: started
+      enabled: yes

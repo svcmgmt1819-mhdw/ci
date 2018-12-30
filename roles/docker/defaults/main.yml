@@ -1,0 +1,15 @@
+---
+
+    deprecated_docker_pkg:
+        - "docker"
+        - "docker-engine"
+    
+    ssl_deps:
+        - "apt-transport-https"
+        - "ca-certificates"
+        - "curl"
+        - "gnupg2"
+        - "software-properties-common"
+    
+    debian_version: stretch
+    docker_compose_version: 1.23.1

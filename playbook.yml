@@ -1,0 +1,8 @@
+#!/usr/bin/env ansible-playbook
+---
+
+    - name: Setup Gitea/Drone CI server
+      hosts: all
+      roles:
+        - docker
+        - gitci
