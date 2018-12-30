@@ -1,5 +1,5 @@
 [Unit]
-Description=tvheadend-sundtek container
+Description=gitci system
 Requires=docker.service
 After=docker.service
 
