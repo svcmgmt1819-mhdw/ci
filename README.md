@@ -24,7 +24,7 @@ vagrant up
 
 hochgefahren werden. Bei der Ersteinrichtung des Gitea-Servers ist darauf zu achten, die IP-Adressen, unter denen der Git-Server erreichbar ist so zu wählen, dass auch der Drone-Server Gitea über diese erreichen kann. Konkret bedeutet dies, dass die Basisadresse als `10.130.1.100` anzugeben ist.
 
-Gitea muss vor der ersten Verwendung des Drone-Servers konfiguriert werden.
+Gitea muss vor der ersten Verwendung des Drone-Servers konfiguriert werden. Hierbei ist zu beachten, dass im Installationsassistenten die Zieladressen angegeben werden, unter der der Gitea-Server "von außen" erreichbar sein wird (im Testsystem `10.130.1.100`).
 
 ## Verwendung
 
